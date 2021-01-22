@@ -1,0 +1,9 @@
+{
+  "type" : "record",
+  "name" : "AvroEntry",
+  "namespace" : "org.acme.model",
+  "fields" : [
+    { "name" : "id", "type" : "long", "default" : 0 },
+    { "name" : "message", "type" : "string", "default" : "" }
+  ]
+}
