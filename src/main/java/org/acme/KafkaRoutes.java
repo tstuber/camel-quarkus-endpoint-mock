@@ -34,12 +34,10 @@ public class KafkaRoutes extends EndpointRouteBuilder {
          *   curl -H "Content-Type: application/json" -X POST -d '{"id": "1", "message": "some message text"}' localhost:8080/event
          */
         from(platformHttp("/event").httpMethodRestrict(HttpMethod.POST))
-                .routeId("proj:quarkus-template:kafka-output")
-                .routeDescription("Reading kafka values from MDM topic")
+                .routeId("routeToKafka")
                 // Unmarshal request to POJO
                 .unmarshal().json(JsonLibrary.Jackson, AvroEntry.class)
                 .log("Received ${body}")
-
                 .to(kafkaToEndpoint)
                 // Set response for invoker
                 .setBody(constant("{\"message\": \"done\"}"));
@@ -48,7 +46,7 @@ public class KafkaRoutes extends EndpointRouteBuilder {
          * Kafka to Log (with AVRO Schema)
          */
         from(kafkaFromEndpoint)
-                .routeId("proj:quarkus-template:kafka-input")
+                .routeId("routeFromKafka")
                 .log("Avro Message: Entry.id = ${body.id}, Entry.message = ${body.message}");
     }
 }
